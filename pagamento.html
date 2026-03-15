@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>Pagamento Pix</title>
+
+<style>
+
+body{
+font-family:Arial;
+background:#f4f4f4;
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
+}
+
+.caixa{
+background:white;
+padding:40px;
+border-radius:10px;
+box-shadow:0 4px 15px rgba(0,0,0,0.3);
+text-align:center;
+width:350px;
+}
+
+.pix{
+font-size:22px;
+color:#27ae60;
+font-weight:bold;
+margin:20px 0;
+}
+
+/* BOTÃO WHATSAPP */
+
+.whatsapp{
+background:#25D366;
+color:white;
+border:none;
+padding:12px 20px;
+font-size:16px;
+border-radius:25px;
+cursor:pointer;
+margin-top:20px;
+width:100%;
+}
+
+.whatsapp:hover{
+transform:scale(1.05);
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="caixa">
+
+<h2>Pagamento via Pix</h2>
+
+<p>Total da compra:</p>
+
+<h3 id="valor"></h3>
+
+<p class="pix">
+Chave Pix: pagamento@casaderacao.com
+</p>
+
+<p>Após pagar, envie o comprovante no WhatsApp.</p>
+
+<a href="https://wa.me/5581993838524" target="_blank">
+<button class="whatsapp">
+📲 Enviar comprovante no WhatsApp
+</button>
+</a>
+
+</div>
+
+<script>
+
+const params = new URLSearchParams(window.location.search)
+const total = params.get("total")
+
+document.getElementById("valor").innerText = "R$ " + total
+
+</script>
+
+</body>
+</html>

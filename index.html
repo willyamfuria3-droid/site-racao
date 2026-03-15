@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+
+<html lang="pt-br">
+
+<head>
+<meta charset="UTF-8">
+<title>Casa de Ração Animal</title>
+
+<style>
+
+body{
+font-family:Arial;
+margin:0;
+background:#f4f4f4;
+}
+
+/* HEADER */
+
+header{
+background:#2f7d3b;
+color:white;
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:15px 40px;
+}
+
+.logo{
+font-size:28px;
+font-weight:bold;
+}
+
+nav a{
+color:white;
+text-decoration:none;
+margin:0 15px;
+font-weight:bold;
+}
+
+.btn-carrinho-topo{
+background:#2ecc71;
+border:none;
+padding:10px 20px;
+border-radius:20px;
+color:white;
+cursor:pointer;
+font-weight:bold;
+}
+
+/* BOTÕES */
+
+button{
+transition:0.3s;
+}
+
+button:hover{
+transform:scale(1.08);
+box-shadow:0 6px 20px rgba(0,0,0,0.2);
+}
+
+/* BANNER */
+
+.banner{
+background:linear-gradient(90deg,#1e6a36,#3fa35d);
+color:white;
+padding:80px 40px;
+display:flex;
+align-items:center;
+justify-content:space-between;
+flex-wrap:wrap;
+}
+
+.banner-texto{
+max-width:500px;
+}
+
+.titulo-loja{
+font-size:40px;
+margin-bottom:10px;
+}
+
+.frase{
+font-size:18px;
+margin:20px 0;
+}
+
+.banner-img img{
+width:350px;
+border-radius:20px;
+box-shadow:0 10px 25px rgba(0,0,0,0.3);
+}
+
+.botoes-banner{
+display:flex;
+gap:15px;
+margin-top:20px;
+}
+
+.btn-banner{
+background:#2ecc71;
+border:none;
+padding:15px 25px;
+font-size:16px;
+color:white;
+border-radius:30px;
+cursor:pointer;
+}
+
+.snap-btn{
+background:#fffc00;
+color:black;
+border:none;
+padding:15px 25px;
+font-size:16px;
+border-radius:30px;
+cursor:pointer;
+font-weight:bold;
+}
+
+/* PRODUTOS */
+
+.produtos{
+padding:40px;
+text-align:center;
+}
+
+.grid{
+display:flex;
+justify-content:center;
+gap:30px;
+flex-wrap:wrap;
+}
+
+.card{
+background:white;
+padding:20px;
+border-radius:10px;
+width:250px;
+box-shadow:0 5px 15px rgba(0,0,0,0.15);
+}
+
+.card img{
+width:100%;
+}
+
+.btn-carrinho{
+background:linear-gradient(45deg,#2ecc71,#27ae60);
+color:white;
+border:none;
+padding:12px;
+width:100%;
+font-size:16px;
+border-radius:30px;
+cursor:pointer;
+}
+
+/* CARRINHO */
+
+.carrinho-box{
+position:fixed;
+right:-350px;
+top:0;
+width:300px;
+height:100%;
+background:white;
+box-shadow:-5px 0 15px rgba(0,0,0,0.3);
+padding:20px;
+transition:0.4s;
+z-index:999;
+}
+
+.carrinho-box.ativo{
+right:0;
+}
+
+.carrinho-box li{
+display:flex;
+justify-content:space-between;
+margin-bottom:10px;
+}
+
+.remover{
+background:red;
+color:white;
+border:none;
+padding:5px 10px;
+cursor:pointer;
+border-radius:5px;
+}
+
+.finalizar{
+background:#27ae60;
+color:white;
+border:none;
+padding:10px;
+width:100%;
+border-radius:10px;
+margin-top:10px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<header>
+
+<div class="logo">🐾 Casa de Ração Animal</div>
+
+<nav>
+<a href="#">Início</a>
+<a href="produtos.html">Produtos</a>
+<a href="#ofertas">Ofertas</a>
+<a href="#">Contato</a>
+</nav>
+
+<button class="btn-carrinho-topo" onclick="abrirCarrinho()">
+🛒 Carrinho (<span id="contador">0</span>)
+</button>
+
+</header>
+
+<section class="banner">
+
+<div class="banner-texto">
+
+<h1 class="titulo-loja">
+🐾 Casa de Ração Animal
+</h1>
+
+<h2>Tudo para seu Pet!</h2>
+
+<p class="frase">
+Qualidade, nutrição e amor para seu melhor amigo.  
+Aqui você encontra as melhores rações com os melhores preços.
+</p>
+
+<div class="botoes-banner">
+
+<button class="btn-banner">
+🛒 Comprar Ração
+</button>
+
+<a href="https://www.snapchat.com" target="_blank">
+<button class="snap-btn">
+👻 Snapchat
+</button>
+</a>
+
+</div>
+
+</div>
+
+<div class="banner-img">
+
+<img src="manutençao do site.jpg" alt="Pets">
+
+</div>
+
+</section>
+
+
+
+<div id="carrinhoBox" class="carrinho-box">
+
+<h2>🛒 Seu Carrinho</h2>
+
+<ul id="listaCarrinho"></ul>
+
+<h3>Total: R$ <span id="total">0</span></h3>
+
+<button class="finalizar" onclick="finalizarCompra()">
+Finalizar Compra
+</button>
+
+<br><br>
+
+<button onclick="fecharCarrinho()">Fechar</button>
+
+</div>
+
+<script>
+
+let carrinho = []
+let total = 0
+
+function addCarrinho(produto,preco){
+
+carrinho.push({produto,preco})
+
+total += preco
+
+atualizarCarrinho()
+
+}
+
+function atualizarCarrinho(){
+
+let lista = document.getElementById("listaCarrinho")
+lista.innerHTML=""
+
+carrinho.forEach((item,index)=>{
+
+let li = document.createElement("li")
+
+li.innerHTML = `
+${item.produto} - R$${item.preco}
+<button class="remover" onclick="removerItem(${index})">X</button>
+`
+
+lista.appendChild(li)
+
+})
+
+document.getElementById("total").innerText = total
+document.getElementById("contador").innerText = carrinho.length
+
+}
+
+function removerItem(index){
+
+total -= carrinho[index].preco
+
+carrinho.splice(index,1)
+
+atualizarCarrinho()
+
+}
+
+function abrirCarrinho(){
+document.getElementById("carrinhoBox").classList.add("ativo")
+}
+
+function fecharCarrinho(){
+document.getElementById("carrinhoBox").classList.remove("ativo")
+}
+
+function finalizarCompra(){
+
+if(carrinho.length == 0){
+alert("Seu carrinho está vazio!")
+return
+}
+
+alert("Compra finalizada com sucesso!")
+
+carrinho = []
+total = 0
+
+atualizarCarrinho()
+
+}
+
+</script>
+
+</body>
+</html>
+
